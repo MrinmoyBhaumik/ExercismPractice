@@ -13,11 +13,40 @@ You can learn more here: https://en.wikipedia.org/wiki/Enumerated_type
 
 # Possible sublist categories.
 # Change the values as you see fit.
-SUBLIST = None
-SUPERLIST = None
-EQUAL = None
-UNEQUAL = None
-
+SUBLIST = "SUBLIST"
+SUPERLIST = "SUPERLIST"
+EQUAL = "EQUAL"
+UNEQUAL = "UNEQUAL"
+def find_indexes(lst, item):
+    return [index for index, value in enumerate(lst) if value == item]
 
 def sublist(list_one, list_two):
-    pass
+    if list_one == list_two:
+        return EQUAL
+    if not list_one and len(list_two) > 0:
+        return SUBLIST
+    if len(list_one) < len(list_two):
+         indexes = find_indexes(list_two,list_one[0])
+         for i in indexes:
+              for item in list_one:
+                   if item != list_two[i]:
+                        break
+                   if item == list_one[len(list_one)-1] and item == list_two[i]:
+                        return SUBLIST
+                   if item == list_two[i]:
+                        i+=1
+         return UNEQUAL
+    if not list_two and len(list_one) > 0:
+         return SUPERLIST
+    if len(list_two) < len(list_one):
+         indexes = find_indexes(list_one,list_two[0])
+         for i in indexes:
+              for item in list_two:
+                   if item != list_one[i]:
+                        break
+                   if item == list_two[len(list_two)-1] and item == list_one[i]:
+                        return SUPERLIST
+                   if item == list_one[i]:
+                        i+=1
+         return UNEQUAL
+    return UNEQUAL
